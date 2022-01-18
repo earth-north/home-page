@@ -1,0 +1,57 @@
+<template>
+  <el-table
+    :data="tableData"
+    style="width: 100%"
+    max-height="500">
+    <el-table-column
+      prop="date"
+      label="日期"
+      width="150">
+    </el-table-column>
+    <el-table-column
+      prop="pageName"
+      label="页面名称"
+      width="150">
+    </el-table-column>
+    <el-table-column
+      prop="pageUrl"
+      label="页面url">
+    </el-table-column>
+    <el-table-column
+      fixed="right"
+      label="操作"
+      width="120">
+      <template slot-scope="scope">
+        <el-button @click="handleClick(scope.row)" type="text" size="small"> 访问 </el-button>
+        <el-button @click.native.prevent="deleteRow(scope.$index, tableData)" type="text" size="small"> 移除 </el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+</template>
+
+<script>
+  export default {
+    methods: {
+      deleteRow(index, rows) {
+        rows.splice(index, 1);
+      },
+      handleClick(row) {
+        var gotoLink = document.createElement('a');
+        gotoLink.href = row.pageUrl;
+        gotoLink.rel = "noreferrer"
+        document.body.appendChild(gotoLink);
+        gotoLink.click();
+        window.location.href=row.pageUrl;
+      }
+    },
+    data() {
+      return {
+        tableData: [{
+          date: '2022-01-11',
+          pageName: 'mds本地服务登录',
+          pageUrl: 'http://192.168.0.200:8085/client/bsp/jsp/login.jsp'
+        }]
+      }
+    }
+  }
+</script>
